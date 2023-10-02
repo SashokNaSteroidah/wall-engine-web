@@ -1,7 +1,7 @@
 import './style.sass'
-import {ChangeEvent, useState} from "react"
+import { ChangeEvent, useState } from "react"
 import Img from "./components/Img/Img"
-import {CiImageOn} from "react-icons/ci"
+import { CiImageOn } from "react-icons/ci"
 
 function App() {
     const [img, setImg] = useState<string | undefined>(undefined)
@@ -9,15 +9,15 @@ function App() {
     const [isLoaded, setLoaded] = useState(false)
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            if (event.target.files.length > 2) {
+        const files = event.target.files;
+        if (files && files.length > 0) {
+            if (files.length > 1) {
                 console.error('Вы не можете загрузить больше 1 картинки');
             } else {
-                const file = event.target?.files[0];
+                const file = files[0];
                 const reader = new FileReader();
                 reader.onload = () => {
                     setImg(reader.result as string);
-                    console.log(isLoaded);
                     setLoaded(prevState => !prevState);
                 };
                 reader.readAsDataURL(file);
@@ -28,21 +28,21 @@ function App() {
     };
 
     const openFullscreen = () => {
-        fullscreen
-            ? document.exitFullscreen()
-            : document.documentElement.requestFullscreen()
+        if (fullscreen) {
+            document.exitFullscreen();
+        } else {
+            document.documentElement.requestFullscreen();
+        }
         setFullscreen(prevState => !prevState)
     }
-
-    //
 
     return (
         <>
             <section className={isLoaded ? "ui hidden" : "ui"}>
                 <label>
-                    <CiImageOn/>
+                    <CiImageOn />
                     <span>Выбрать картинку</span>
-                    <input className="uiFile" onChange={handleChange} type="file"/>
+                    <input className="uiFile" onChange={handleChange} type="file" />
                 </label>
                 <button onClick={openFullscreen}>
                     {fullscreen
@@ -51,7 +51,7 @@ function App() {
                     }
                 </button>
             </section>
-            {img && <Img img={img}/>}
+            {img && <Img img={img} />}
         </>
     )
 }
