@@ -1,6 +1,7 @@
 import './style.sass'
 import {useState} from "react";
 import Img from "./components/Img/Img";
+import {CiImageOn} from "react-icons/ci";
 
 function App() {
     const [img, setImg] = useState<string | undefined>(undefined)
@@ -24,7 +25,13 @@ function App() {
 
     return (
         <>
-            <input onChange={handleChange} type="file"/>
+            <section className="ui">
+                <label>
+                    <CiImageOn/>
+                    <span>Выбрать картинку</span>
+                    <input className="uiFile" onChange={handleChange} type="file"/>
+                </label>
+            </section>
             {img && <Img img={img}/>}
         </>
     )
